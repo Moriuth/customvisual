@@ -60,11 +60,7 @@ export class Visual implements IVisual {
 
     public update(options: VisualUpdateOptions) {
         this.formattingSettings = this.formattingSettingsService.populateFormattingSettingsModel(VisualFormattingSettingsModel, options.dataViews);
-
-        console.log('Visual update', options);
-        if (this.textNode) {
-            this.textNode.textContent = (this.updateCount++).toString();
-        }
+        this.createCategories(options);
     }
 
     /**
@@ -73,5 +69,20 @@ export class Visual implements IVisual {
      */
     public getFormattingModel(): powerbi.visuals.FormattingModel {
         return this.formattingSettingsService.buildFormattingModel(this.formattingSettings);
+    }
+
+    public extractData(options: VisualUpdateOptions) {
+        const cate: {category: Number} [] = []
+        let dataViews = options.dataViews[0];
+        let list = dataViews.categorical.values.values;
+
+        for(let i = 0; i < list.length; i++) {
+            cate.push({category: list[i].toNumber()})
+        }
+        return cate;
+    }
+
+    public createCategories(options: VisualUpdateOptions) {
+        const data = this.extractData(options)
     }
 }
