@@ -85,4 +85,4 @@ export class Visual implements IVisual {
     public createCategories(options: VisualUpdateOptions) {
         const data = this.extractData(options)
     }
-}
+}    
